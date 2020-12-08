@@ -57,7 +57,7 @@ parser.set_defaults(store_pred=False)
 parser.add_argument('--on-screen', dest='on_screen', action='store_true')
 parser.set_defaults(on_screen=False)
 
-parser.add_argument("--encoder_layer", type="str", default="encoder_output",
+parser.add_argument("--encoder_layer", type=str, default="encoder_output",
                     help="specify, which layer of the encoder should be extracted")
 parser.add_argument("--save_lname", action="store_true", default=False,
                     help="if passed, the layername will be saved in the name of the encoder result")
