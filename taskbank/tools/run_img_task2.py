@@ -147,7 +147,7 @@ def run_to_task():
 
     if args.store_rep:
         s_name, file_extension = os.path.splitext(args.store_name)
-        with open('{}.npy'.format(s_name + '_features' + ("_" + args.encoder_layer if args.save_lname else "")), 'wb') as fp:
+        with open('{}.npy'.format(s_name + '_features' + ("_" + args.encoder_layer.replace("/", "_") if args.save_lname else "")), 'wb') as fp:
             np.save(fp, np.squeeze(representation))
 
     if args.store_pred:
