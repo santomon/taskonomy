@@ -150,9 +150,10 @@ def run_to_task():
         s_name, file_extension = os.path.splitext(args.store_name)
 
         if args.compress_rep:
-            representation = tf.keras.layers.AveragePooling2D(pool_size=(2, 2))(representation)
+            representation = tf.keras.layers.AveragePooling2D(pool_size=(2, 2))(tf.constant(representation))
+            representation = training_runners['sess'].run(representation)
 
-        with open('{}.npy'.format(s_name + '_features'), 'wb') as fp:
+        with open('{}.npy'.format(s_name), 'wb') as fp:
             np.save(fp, np.squeeze(representation))
 
     if args.store_pred:
