@@ -149,7 +149,7 @@ def run_to_task():
     if args.store_rep:
         s_name, file_extension = os.path.splitext(args.store_name)
 
-        if args.compress_:
+        if args.compress_rep:
             representation = tf.keras.layers.AveragePooling2D(pool_size=(2, 2))(representation)
 
         with open('{}.npy'.format(s_name + '_features'), 'wb') as fp:
