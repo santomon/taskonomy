@@ -62,7 +62,7 @@ parser.add_argument("--encoder_layer", type=str, default="encoder_output",
 parser.add_argument("--compress_rep", action="store_true", default=False,
                     help="if passed, averagepooling and conversion to np.float16 will be applied before saving the encoder"
                          " result")
-parser.add_argument("--suppress_stdout", type=str, default=False,
+parser.add_argument("--suppress_stdout", action="store_true", default=False,
                     help="if passed, most of the prints will be omitted. Recommended when running a lot inferences")
 
 from contextlib import contextmanager
