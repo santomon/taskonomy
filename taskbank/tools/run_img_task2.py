@@ -59,8 +59,9 @@ parser.set_defaults(on_screen=False)
 
 parser.add_argument("--encoder_layer", type=str, default="encoder_output",
                     help="specify, which layer of the encoder should be extracted")
-parser.add_argument("--save_lname", action="store_true", default=False,
-                    help="if passed, the layername will be saved in the name of the encoder result")
+parser.add_argument("--compress_rep", action="store_true", default=False,
+                    help="if passed, averagepooling and conversion to np.float16 will be applied before saving the encoder"
+                         " result")
 
 tf.logging.set_verbosity(tf.logging.ERROR)
 
@@ -147,7 +148,11 @@ def run_to_task():
 
     if args.store_rep:
         s_name, file_extension = os.path.splitext(args.store_name)
-        with open('{}.npy'.format(s_name + '_features' + ("_" + args.encoder_layer.replace("/", "_") if args.save_lname else "")), 'wb') as fp:
+
+        if args.compress_:
+            representation = tf.keras.layers.AveragePooling2D(pool_size=(2, 2))(representation)
+
+        with open('{}.npy'.format(s_name + '_features'), 'wb') as fp:
             np.save(fp, np.squeeze(representation))
 
     if args.store_pred:
