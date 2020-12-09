@@ -1,0 +1,5 @@
+numpy==1.16
+scipy==1.0.0
+tensorflow==1.5
+transforms3d
+scikit-image==0.12.3
