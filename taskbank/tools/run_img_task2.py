@@ -62,6 +62,21 @@ parser.add_argument("--encoder_layer", type=str, default="encoder_output",
 parser.add_argument("--compress_rep", action="store_true", default=False,
                     help="if passed, averagepooling and conversion to np.float16 will be applied before saving the encoder"
                          " result")
+parser.add_argument("--suppress_stdout", type=str, default=False,
+                    help="if passed, most of the prints will be omitted. Recommended when running a lot inferences")
+
+from contextlib import contextmanager
+import sys, os
+
+@contextmanager  # src: http://thesmithfam.org/blog/2012/10/25/temporarily-suppress-console-output-in-python/ 09.12.20
+def suppress_stdout():
+    with open(os.devnull, "w") as devnull:
+        old_stdout = sys.stdout
+        sys.stdout = devnull
+        try:
+            yield
+        finally:
+            sys.stdout = old_stdout
 
 tf.logging.set_verbosity(tf.logging.ERROR)
 
@@ -79,7 +94,7 @@ def generate_cfg(task):
     import utils
     import data.load_ops as load_ops
     from   general_utils import RuntimeDeterminedEnviromentVars
-    cfg = utils.load_config( CONFIG_DIR, nopause=True )
+    cfg = utils.load_config( CONFIG_DIR, nopause=True)
     RuntimeDeterminedEnviromentVars.register_dict( cfg )
     cfg['batch_size'] = 1
     if 'batch_size' in cfg['encoder_kwargs']:
@@ -92,9 +107,12 @@ def run_to_task():
     import general_utils
     from   general_utils import RuntimeDeterminedEnviromentVars
 
-    tf.logging.set_verbosity(tf.logging.ERROR)
-   
+
     args = parser.parse_args()
+
+    if not args.suppress_stdout:
+        tf.logging.set_verbosity(tf.logging.ERROR)
+
 
     img = load_raw_image_center_crop( args.im_name )
     img = skimage.img_as_float(img)
@@ -229,5 +247,5 @@ def run_to_task():
     return
 
 if __name__ == '__main__':
-    run_to_task()
+        run_to_task()
 
