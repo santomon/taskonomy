@@ -78,8 +78,6 @@ def suppress_stdout():
         finally:
             sys.stdout = old_stdout
 
-tf.logging.set_verbosity(tf.logging.ERROR)
-
 list_of_tasks = 'autoencoder curvature denoise edge2d edge3d \
 keypoint2d keypoint3d colorization jigsaw \
 reshade rgb2depth rgb2mist rgb2sfnorm \
