@@ -101,15 +101,11 @@ def generate_cfg(task):
     cfg['root_dir'] = repo_dir
     return cfg
 
-def run_to_task():
+def run_to_task(args):
     import general_utils
     from   general_utils import RuntimeDeterminedEnviromentVars
 
-
-    args = parser.parse_args()
-
-    if not args.suppress_stdout:
-        tf.logging.set_verbosity(tf.logging.ERROR)
+    tf.logging.set_verbosity(tf.logging.ERROR)
 
 
     img = load_raw_image_center_crop( args.im_name )
@@ -245,5 +241,11 @@ def run_to_task():
     return
 
 if __name__ == '__main__':
-        run_to_task()
+
+        args = parser.parse_args()
+        if args.suppress_stdout:
+            with suppress_stdout():
+                run_to_task(args)
+        else:
+            run_to_task(args)
 
